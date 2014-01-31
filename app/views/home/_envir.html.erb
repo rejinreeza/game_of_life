@@ -1,0 +1,22 @@
+<%= form_tag "/home/submit",:id =>'lform' do %>
+<div id="area">
+<div id="left">
+  <% for x in 0..20 %>
+    <% for y in 0..20 %>
+        <%= check_box_tag 'role_ids[]', [x,y],false,:class=>"rolchk#{x}_#{y}" -%>
+    <% end %>
+	<br/>
+  <% end %>
+  <br />
+    <div id="submitd"><%= submit_tag "Start the cycle",:class => "form_submit" %></div>
+  <div id="but1"><%= button_to 'Reset environment', '#', :id => 'reset' %></div>
+  <div id="but2"><%= button_to 'Stop cycle', '#', :id => 'stop' %></div>
+</div>
+  <div id = 'right'>
+    <div id='count'>  speed:  <%= text_field_tag 'name',"1",:id => 'name' %></div><br />
+    <div id='generation'>Generations :<%=label(:post, :title, "1", :class => "title_label")%> </div> <br/>
+    <div id='selector'>Select the pattern:<%= select_tag "pattern", options_for_select(@patterns.collect {|c| [c,@patterns.index(c)]}) %></div>
+  </div>
+<% end %>
+
+</div>

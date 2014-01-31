@@ -1,0 +1,51 @@
+<h1>Game Of Life</h1>
+<p>Select the live cell</p>
+<%= render :partial => 'home/envir' %>
+<script type ="text/javascript" >
+  $(document).ready(function(){
+       patts = [[],[[9,8],[9,9],[9,10]]];
+//       patts = <%= @cls %>;
+      var myTimer;
+      $('form').submit(function(e) {
+      e.preventDefault();
+      speed = $('#name').val();
+      var inf = 2;
+      myTimer = setInterval(function(){
+	  $.getJSON("/home/submit", $('#lform').serialize(), function(json) {
+	    if(json ==''){
+	      alert('all died');
+	      clearInterval(myTimer);
+	    }
+		$('.title_label').text(inf);
+		inf++;
+	    $('input:checkbox').removeAttr('checked');
+	    for(i=0;i<json.length;i++){
+	      $('.rolchk'+json[i][0]+"_"+json[i][1]).attr('checked','checked');
+	    }
+	    });
+	},speed*1000);
+   });
+      $('#stop').click(function(e){
+	e.preventDefault();
+	clearInterval(myTimer);
+      });
+      $('#reset').click(function(e){
+	e.preventDefault();
+	$('.title_label').text("1");
+	$('input:checkbox').removeAttr('checked');
+      });
+      $('#pattern').change(function(e){
+	e.preventDefault();
+	if($('#pattern').val() !== 1){
+	    clearInterval(myTimer);
+	    $('.title_label').text("1");
+	    $('input:checkbox').removeAttr('checked');
+	    val =parseInt($('#pattern').val());
+	    pattern = patts[val];
+	    for(i=0;i<pattern.length;i++){
+	      $('.rolchk'+pattern[i][0]+"_"+pattern[i][1]).attr('checked','checked');
+	    }
+	}
+      });
+    });
+</script>
